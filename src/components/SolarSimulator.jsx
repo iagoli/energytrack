@@ -10,6 +10,7 @@ import { fetchIrradiacao, regionFromUf } from '../services/cresesb';
 import LoadingSpinner from './ui/LoadingSpinner';
 import ErrorBanner from './ui/ErrorBanner';
 import DataSourceBadge from './ui/DataSourceBadge';
+import EmptyState from './ui/EmptyState';
 
 function ResultCard({ icon, label, value, sub, accent }) {
   const map = {
@@ -39,6 +40,7 @@ export default function SolarSimulator({
   solarRegion, setSolarRegion,
   cep, setCep,
   location, setLocation,
+  onNavigate,
 }) {
   const [loadingCep, setLoadingCep]   = useState(false);
   const [cepError, setCepError]       = useState(null);
@@ -108,11 +110,12 @@ export default function SolarSimulator({
 
   if (userAppliances.length === 0) {
     return (
-      <div className="surface p-12 text-center">
-        <span className="text-5xl block mb-4">☀️</span>
-        <h2 className="text-xl font-bold text-cloud mb-2">Cadastre aparelhos primeiro</h2>
-        <p className="text-cloud-muted text-sm">Volte à seção de aparelhos e adicione seus eletrodomésticos.</p>
-      </div>
+      <EmptyState
+        icon="☀️"
+        title="Cadastre aparelhos primeiro"
+        description="A simulação fotovoltaica usa o seu consumo para dimensionar os painéis. Cadastre seus eletrodomésticos para começar."
+        onNavigate={onNavigate}
+      />
     );
   }
 

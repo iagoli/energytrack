@@ -9,6 +9,7 @@ import { fetchDistribuidoras, fetchTarifa } from '../services/aneel';
 import LoadingSpinner from './ui/LoadingSpinner';
 import ErrorBanner from './ui/ErrorBanner';
 import DataSourceBadge from './ui/DataSourceBadge';
+import EmptyState from './ui/EmptyState';
 
 // Paleta de gráficos estilo Apple (cores de sistema: azul, verde, laranja,
 // rosa, ciano, roxo, amarelo) em vez do arco-íris genérico.
@@ -54,7 +55,7 @@ const CustomTooltip = ({ active, payload }) => {
 
 export default function Dashboard({
   userAppliances, tariff, tariffSource, setTariff,
-  uf, setUf, distribuidora, setDistribuidora,
+  uf, setUf, distribuidora, setDistribuidora, onNavigate,
 }) {
   const [chartType, setChartType]             = useState('pie');
   const [distList, setDistList]               = useState([]);
@@ -109,11 +110,12 @@ export default function Dashboard({
 
   if (userAppliances.length === 0) {
     return (
-      <div className="surface p-12 text-center">
-        <span className="text-5xl block mb-4">📊</span>
-        <h2 className="text-xl font-bold text-cloud mb-2">Nenhum aparelho cadastrado</h2>
-        <p className="text-cloud-muted text-sm">Volte à seção anterior e adicione seus eletrodomésticos.</p>
-      </div>
+      <EmptyState
+        icon="📊"
+        title="Nenhum aparelho cadastrado"
+        description="Cadastre seus eletrodomésticos para ver o painel de consumo, gráficos e recomendações personalizadas."
+        onNavigate={onNavigate}
+      />
     );
   }
 

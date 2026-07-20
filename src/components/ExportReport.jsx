@@ -1,15 +1,17 @@
 import { SOLAR_IRRADIATION, AVERAGE_CONSUMPTION_BR, CO2_EMISSION_FACTOR } from '../constants';
 import { calcItemKwh, calcTotals, calcSolarPanels, calcPaybackMonths } from '../utils/calculations';
 import energytrackLogo from '../assets/energytrack_logo.png';
+import EmptyState from './ui/EmptyState';
 
-export default function ExportReport({ userAppliances, tariff, solarRegion }) {
+export default function ExportReport({ userAppliances, tariff, solarRegion, onNavigate }) {
   if (userAppliances.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
-        <span className="text-5xl block mb-4">📄</span>
-        <h2 className="text-xl font-bold text-gray-700 mb-2">Nenhum dado para exportar</h2>
-        <p className="text-gray-400 text-sm">Cadastre seus aparelhos e veja o painel antes de exportar.</p>
-      </div>
+      <EmptyState
+        icon="📄"
+        title="Nenhum dado para exportar"
+        description="Cadastre seus aparelhos para gerar um relatório completo com resumo, tabela de consumo e simulação solar."
+        onNavigate={onNavigate}
+      />
     );
   }
 

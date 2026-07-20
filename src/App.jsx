@@ -119,7 +119,7 @@ function AppliancesPage({ appliances }) {
   );
 }
 
-function DashboardPage({ appliances, settings, setTariff, setUf, setDistribuidora }) {
+function DashboardPage({ appliances, settings, setTariff, setUf, setDistribuidora, onNavigate }) {
   return (
     <>
       <PageHero
@@ -140,13 +140,14 @@ function DashboardPage({ appliances, settings, setTariff, setUf, setDistribuidor
           setUf={setUf}
           distribuidora={settings.distribuidora}
           setDistribuidora={setDistribuidora}
+          onNavigate={onNavigate}
         />
       </section>
     </>
   );
 }
 
-function SolarPage({ appliances, settings, setSolarRegion, setCep, setLocation }) {
+function SolarPage({ appliances, settings, setSolarRegion, setCep, setLocation, onNavigate }) {
   return (
     <>
       <PageHero
@@ -166,13 +167,14 @@ function SolarPage({ appliances, settings, setSolarRegion, setCep, setLocation }
           setCep={setCep}
           location={settings.location}
           setLocation={setLocation}
+          onNavigate={onNavigate}
         />
       </section>
     </>
   );
 }
 
-function ReportPage({ appliances, settings }) {
+function ReportPage({ appliances, settings, onNavigate }) {
   return (
     <>
       <PageHero
@@ -188,18 +190,10 @@ function ReportPage({ appliances, settings }) {
           userAppliances={appliances.items}
           tariff={settings.tariff}
           solarRegion={settings.solarRegion}
+          onNavigate={onNavigate}
         />
       </section>
     </>
-  );
-}
-
-function EmptyHint({ icon, text }) {
-  return (
-    <Reveal className="surface p-10 text-center">
-      <span className="text-5xl block mb-3">{icon}</span>
-      <p className="text-cloud-muted">{text}</p>
-    </Reveal>
   );
 }
 
@@ -220,42 +214,38 @@ function MainApp() {
 
   if (settingsLoading) return <Splash />;
 
-  const hasAppliances = appliances.items.length > 0;
-
+  // As páginas são sempre renderizadas por completo — inclusive a PageHero com
+  // a arte/ilustração — mesmo sem aparelhos cadastrados. Cada componente interno
+  // (Dashboard, SolarSimulator, ExportReport) exibe seu próprio aviso de
+  // "cadastre aparelhos" logo abaixo da hero, sem ficar cortado pela navbar.
   let page;
   switch (route) {
     case 'painel':
-      page = hasAppliances ? (
+      page = (
         <DashboardPage
           appliances={appliances}
           settings={settings}
           setTariff={setTariff}
           setUf={setUf}
           setDistribuidora={setDistribuidora}
+          onNavigate={setRoute}
         />
-      ) : (
-        <EmptyHint icon="📊" text="Cadastre aparelhos na página 'Aparelhos' para ver o painel." />
       );
       break;
     case 'solar':
-      page = hasAppliances ? (
+      page = (
         <SolarPage
           appliances={appliances}
           settings={settings}
           setSolarRegion={setSolarRegion}
           setCep={setCep}
           setLocation={setLocation}
+          onNavigate={setRoute}
         />
-      ) : (
-        <EmptyHint icon="☀️" text="Cadastre aparelhos na página 'Aparelhos' para simular energia solar." />
       );
       break;
     case 'relatorio':
-      page = hasAppliances ? (
-        <ReportPage appliances={appliances} settings={settings} />
-      ) : (
-        <EmptyHint icon="📄" text="Cadastre aparelhos na página 'Aparelhos' para gerar o relatório." />
-      );
+      page = <ReportPage appliances={appliances} settings={settings} onNavigate={setRoute} />;
       break;
     default:
       page = <AppliancesPage appliances={appliances} />;
