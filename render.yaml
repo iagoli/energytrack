@@ -9,7 +9,10 @@ services:
     region: oregon          # altere se quiser mais perto do Brasil (ex.: frankfurt)
     branch: main            # ajuste para o nome da sua branch principal
     buildCommand: npm install
-    startCommand: node server/index.js
+    # Free tier não suporta preDeployCommand, então rodamos as migrations no
+    # start (são idempotentes: registram-se em schema_migrations e usam
+    # CREATE ... IF NOT EXISTS, então rodar a cada boot é seguro).
+    startCommand: node server/db/migrate.js && node server/index.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -32,5 +35,3 @@ services:
       # Origem do frontend (domínio da Vercel) — restringe o CORS.
       - key: ALLOWED_ORIGIN
         sync: false
-    # Roda as migrations automaticamente após o deploy (e a cada reinício).
-    preDeployCommand: node server/db/migrate.js
