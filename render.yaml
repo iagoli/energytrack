@@ -1,0 +1,36 @@
+# Render "Blueprint" — sobe o backend (API Express) gratuitamente.
+# O banco de dados NÃO é do Render: usamos o Supabase free (não expira).
+# Doc: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: energytrack-api
+    runtime: node
+    plan: free
+    region: oregon          # altere se quiser mais perto do Brasil (ex.: frankfurt)
+    branch: main            # ajuste para o nome da sua branch principal
+    buildCommand: npm install
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      # DATABASE_URL vem do Supabase (cole a Connection URI em "Environment" no painel).
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: VITE_GOOGLE_CLIENT_ID
+        sync: false
+      - key: ANEEL_RESOURCE_ID
+        value: fcf2906c-7c32-4b9b-a637-054e7a5234f4
+      # Origem do frontend (domínio da Vercel) — restringe o CORS.
+      - key: ALLOWED_ORIGIN
+        sync: false
+    # Roda as migrations automaticamente após o deploy (e a cada reinício).
+    preDeployCommand: node server/db/migrate.js

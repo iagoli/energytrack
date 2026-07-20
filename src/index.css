@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   TOKENS DE TEMA (RGB channels para suportar alpha no Tailwind)
+   :root = escuro (padrão) | html.light = claro
+   ============================================================ */
+:root {
+  --space:        6 6 8;      /* space-deep */
+  --space-deep:   6 6 8;
+  --space-panel:  10 10 15;   /* painéis/cartões escuros */
+  --space-raised: 18 18 24;
+  --space-line:   29 29 36;
+  --cloud:        245 245 247; /* texto principal */
+  --cloud-soft:   161 161 170;
+  --cloud-muted:  110 110 115;
+  --surface:      255 255 255;   /* canal para alpha */
+  --surface-soft: 255 255 255;
+  --surface-line: 255 255 255;
+  --surface-a:    0.04;   /* alpha do fundo de cartão */
+  --surface-line-a: 0.10;
+  --nav-bg:       8 8 12;
+  --nav-bg-a:     0.6;
+  --nav-border:   255 255 255;
+  --nav-border-a: 0.08;
+  --glow-ambient: rgba(0, 113, 227, 0.12), rgba(175, 82, 222, 0.08);
+  --bento-hover-bg: 255 255 255;
+  --bento-hover-bg-a: 0.07;
+  --bento-hover-border: 255 255 255;
+  --bento-hover-border-a: 0.20;
+  --btn-ghost-bg: 255 255 255;
+  --btn-ghost-bg-a: 0.03;
+  --btn-ghost-hover-bg: 255 255 255;
+  --btn-ghost-hover-bg-a: 0.08;
+  --scene-blue-a:   0.08;
+  --scene-violet-a: 0.07;
+  --scene-green-a:  0.07;
+}
+
+html.light {
+  --space:        245 245 247;  /* fundo claro (quase branco Apple #f5f5f7) */
+  --space-deep:   245 245 247;
+  --space-panel:  255 255 255;  /* cartões brancos */
+  --space-raised: 255 255 255;
+  --space-line:   210 210 215;  /* cinza borda #d2d2d7 */
+  --cloud:        29 29 31;      /* texto #1d1d1f */
+  --cloud-soft:   110 110 115;   /* #6e6e73 */
+  --cloud-muted:  134 134 139;   /* #86868b */
+  --surface:      255 255 255;
+  --surface-soft: 255 255 255;
+  --surface-line: 0 0 0;
+  --surface-a:    0.55;   /* cartões translúcidos claros */
+  --surface-line-a: 0.10;
+  --nav-bg:       255 255 255;
+  --nav-bg-a:     0.72;
+  --nav-border:   0 0 0;
+  --nav-border-a: 0.08;
+  --glow-ambient: rgba(0, 113, 227, 0.06), rgba(175, 82, 222, 0.04);
+  --bento-hover-bg: 0 0 0;
+  --bento-hover-bg-a: 0.04;
+  --bento-hover-border: 0 113 227;
+  --bento-hover-border-a: 0.45;
+  --btn-ghost-bg: 0 0 0;
+  --btn-ghost-bg-a: 0.04;
+  --btn-ghost-hover-bg: 0 0 0;
+  --btn-ghost-hover-bg-a: 0.08;
+  --scene-blue-a:   0.06;
+  --scene-violet-a: 0.05;
+  --scene-green-a:  0.05;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-space-deep text-cloud antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image:
+      radial-gradient(70% 50% at 50% -10%, var(--glow-ambient));
+    background-attachment: fixed;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  h1, h2, h3 {
+    @apply font-semibold text-cloud;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  h1 { letter-spacing: -0.03em; }
+
+  ::selection {
+    background: rgba(0, 113, 227, 0.30);
+    color: #fff;
+  }
+  html.light ::selection { color: #fff; }
+}
+
+@layer components {
+  /* Card base translúcido (glass) */
+  .surface {
+    @apply rounded-3xl border shadow-card backdrop-blur-xl;
+    background-color: rgb(var(--surface) / var(--surface-a));
+    border-color: rgb(var(--surface-line) / var(--surface-line-a));
+  }
+
+  /* Bento box */
+  .bento {
+    @apply relative overflow-hidden rounded-none backdrop-blur-xl transition-all duration-500 ease-spring;
+    background-color: rgb(var(--surface) / var(--surface-a));
+    border: 1px solid rgb(var(--surface-line) / var(--surface-line-a));
+    padding: 1.5rem;
+  }
+  @media (min-width: 640px) { .bento { padding: 2rem; } }
+  .bento:hover {
+    transform: translateY(-0.25rem);
+    background-color: rgb(var(--bento-hover-bg) / var(--bento-hover-bg-a));
+    border-color: rgb(var(--bento-hover-border) / var(--bento-hover-border-a));
+    box-shadow: 0 2px 6px rgba(0,0,0,0.16), 0 24px 60px rgba(0,0,0,0.18);
+  }
+
+  /* Botão primário azul Apple */
+  .btn-galaxy {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-apple px-7 py-3.5
+           text-sm font-semibold text-white shadow-glow transition-all duration-300 ease-spring;
+  }
+  .btn-galaxy:hover { @apply -translate-y-0.5 brightness-110; }
+  .btn-galaxy:active { @apply translate-y-0 brightness-95; }
+
+  /* Botão secundário (ghost glass) */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3
+           text-sm font-semibold transition-all duration-300 ease-spring;
+    border-color: rgb(var(--surface-line) / var(--surface-line-a));
+    background-color: rgb(var(--btn-ghost-bg) / var(--btn-ghost-bg-a));
+    color: rgb(var(--cloud-soft));
+  }
+  .btn-ghost:hover {
+    @apply -translate-y-0.5;
+    background-color: rgb(var(--btn-ghost-hover-bg) / var(--btn-ghost-hover-bg-a));
+    color: rgb(var(--cloud));
+  }
+
+  .text-galaxy,
+  .text-gradient {
+    @apply bg-text-apple bg-clip-text text-transparent;
+  }
+
+  .hairline { @apply h-px w-full; background-color: rgb(var(--surface-line) / var(--surface-line-a)); }
+
+  /* Palcos de arte (PageHero) — fundos gradiente sutis que respeitam o tema */
+  .scene-blue   { background: linear-gradient(135deg, rgba(10,132,255,var(--scene-blue-a)), rgba(10,132,255,calc(var(--scene-blue-a) * 0.25))); }
+  .scene-violet { background: linear-gradient(135deg, rgba(10,132,255,var(--scene-violet-a)), rgba(191,90,242,calc(var(--scene-violet-a) * 0.7))); }
+  .scene-green  { background: linear-gradient(135deg, rgba(48,209,88,var(--scene-green-a)), rgba(10,132,255,calc(var(--scene-green-a) * 0.7))); }
+}
+
+@layer utilities {
+  .spring-reveal {
+    opacity: 0;
+    transform: translateY(38px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: opacity, transform;
+  }
+  .spring-reveal.is-visible { opacity: 1; transform: none; }
+
+  .spring-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: opacity, transform;
+  }
+  .spring-left.is-visible { opacity: 1; transform: none; }
+
+  .spring-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: opacity, transform;
+  }
+  .spring-right.is-visible { opacity: 1; transform: none; }
+
+  .spring-delay-1 { transition-delay: 0.08s; }
+  .spring-delay-2 { transition-delay: 0.16s; }
+  .spring-delay-3 { transition-delay: 0.24s; }
+  .spring-delay-4 { transition-delay: 0.32s; }
+  .spring-delay-5 { transition-delay: 0.40s; }
+  .spring-delay-6 { transition-delay: 0.48s; }
+
+  .nav-glass {
+    background: rgb(var(--nav-bg) / var(--nav-bg-a));
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgb(var(--nav-border) / var(--nav-border-a));
+  }
+
+  .sticky-scene {
+    @apply sticky top-24 lg:top-28;
+  }
+
+  .apple-art {
+    opacity: 0;
+    transform: scale(0.92);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: opacity, transform;
+  }
+  .apple-art.is-visible { opacity: 1; transform: scale(1); }
+
+  .art-arc {
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: art-draw 2.2s ease forwards, art-pulse 3.4s ease-in-out 2.2s infinite;
+  }
+  @keyframes art-draw { to { stroke-dashoffset: 0; } }
+  @keyframes art-pulse { 0%,100% { opacity: 0.35; } 50% { opacity: 0.95; } }
+
+  .art-shine {
+    transform-origin: center;
+    animation: art-sheen 5s ease-in-out infinite;
+  }
+  @keyframes art-sheen {
+    0%,100% { opacity: 0.10; transform: translateX(-10px); }
+    50%     { opacity: 0.30; transform: translateX(12px); }
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .spring-reveal, .spring-left, .spring-right, .apple-art, .reveal, .reveal-left, .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .art-arc, .art-shine {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 0.9 !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media print {
+  /* Isola o documento do relatório: esconde tudo e mostra só #print-report */
+  body { background: #fff !important; }
+  body * { visibility: hidden; }
+  #print-report, #print-report * { visibility: visible; }
+  #print-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0 !important;
+    padding: 24px 32px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+  .no-print { display: none !important; }
+}

@@ -1,0 +1,83 @@
+{
+  "categories": [
+    {
+      "id": "climate",
+      "label": "Climatização",
+      "icon": "❄️",
+      "models": [
+        { "id": "ac-9000",  "nome": "Ar-condicionado 9.000 BTU",   "potencia_w": 800,  "icone": "❄️" },
+        { "id": "ac-12000", "nome": "Ar-condicionado 12.000 BTU",  "potencia_w": 1100, "icone": "❄️" },
+        { "id": "ac-18000", "nome": "Ar-condicionado 18.000 BTU",  "potencia_w": 1500, "icone": "❄️" },
+        { "id": "ac-22000", "nome": "Ar-condicionado 22.000 BTU",  "potencia_w": 1900, "icone": "❄️" },
+        { "id": "ac-30000", "nome": "Ar-condicionado 30.000 BTU",  "potencia_w": 2600, "icone": "❄️" },
+        { "id": "ventilador", "nome": "Ventilador de Teto",        "potencia_w": 150,  "icone": "🌀" },
+        { "id": "ventilador-p", "nome": "Ventilador de Mesa",      "potencia_w": 55,   "icone": "🌀" }
+      ]
+    },
+    {
+      "id": "frio",
+      "label": "Refrigeração",
+      "icon": "🧊",
+      "models": [
+        { "id": "geladeira-duplex", "nome": "Geladeira Frost Free Duplex", "potencia_w": 150, "icone": "🧊" },
+        { "id": "geladeira-inverter", "nome": "Geladeira Inverter",        "potencia_w": 110, "icone": "🧊" },
+        { "id": "geladeira-simples", "nome": "Geladeira 1 porta",          "potencia_w": 90,  "icone": "🧊" },
+        { "id": "freezer", "nome": "Freezer Horizontal",                   "potencia_w": 200, "icone": "🧊" },
+        { "id": "frigobar", "nome": "Frigobar",                            "potencia_w": 70,  "icone": "🧊" }
+      ]
+    },
+    {
+      "id": "lavanderia",
+      "label": "Lavanderia",
+      "icon": "🌊",
+      "models": [
+        { "id": "lavadora", "nome": "Máquina de Lavar (ciclo completo)", "potencia_w": 1000, "icone": "🌊" },
+        { "id": "lavadora-11kg", "nome": "Máquina de Lavar 11kg",         "potencia_w": 1300, "icone": "🌊" },
+        { "id": "secadora", "nome": "Secadora de Roupas",                 "potencia_w": 2500, "icone": "🌀" },
+        { "id": "lava-seca", "nome": "Lava e Seca",                        "potencia_w": 2000, "icone": "🌀" }
+      ]
+    },
+    {
+      "id": "cozinha",
+      "label": "Cozinha",
+      "icon": "🍳",
+      "models": [
+        { "id": "chuveiro", "nome": "Chuveiro Elétrico",        "potencia_w": 5500, "icone": "🚿" },
+        { "id": "microondas", "nome": "Micro-ondas",            "potencia_w": 1200, "icone": "🍱" },
+        { "id": "forno", "nome": "Forno Elétrico",              "potencia_w": 2000, "icone": "🔥" },
+        { "id": "airfryer", "nome": "Air Fryer",                 "potencia_w": 1500, "icone": "🍟" },
+        { "id": "cafeteira", "nome": "Cafeteira Elétrica",       "potencia_w": 800,  "icone": "☕" },
+        { "id": "liquidificador", "nome": "Liquidificador",      "potencia_w": 500,  "icone": "🥤" },
+        { "id": "ferro", "nome": "Ferro de Passar",              "potencia_w": 1000, "icone": "👔" },
+        { "id": "sanduicheira", "nome": "Sanduicheira",          "potencia_w": 750,  "icone": "🥪" }
+      ]
+    },
+    {
+      "id": "eletronicos",
+      "label": "Eletrônicos",
+      "icon": "📺",
+      "models": [
+        { "id": "tv-32", "nome": "Televisão 32\"",     "potencia_w": 50,  "icone": "📺" },
+        { "id": "tv-43", "nome": "Televisão 43\"",     "potencia_w": 75,  "icone": "📺" },
+        { "id": "tv-55", "nome": "Televisão 55\"",     "potencia_w": 120, "icone": "📺" },
+        { "id": "tv-65", "nome": "Televisão 65\"",     "potencia_w": 160, "icone": "📺" },
+        { "id": "desktop", "nome": "Computador Desktop", "potencia_w": 300, "icone": "🖥️" },
+        { "id": "notebook", "nome": "Notebook",          "potencia_w": 65,  "icone": "💻" },
+        { "id": "console", "nome": "Console de Jogos",   "potencia_w": 200, "icone": "🎮" },
+        { "id": "soundbar", "nome": "Soundbar",          "potencia_w": 40,  "icone": "🔊" }
+      ]
+    },
+    {
+      "id": "outros",
+      "label": "Outros",
+      "icon": "💡",
+      "models": [
+        { "id": "lampada", "nome": "Lâmpada LED 9W",      "potencia_w": 9,    "icone": "💡" },
+        { "id": "lampada-15", "nome": "Lâmpada LED 15W",  "potencia_w": 15,   "icone": "💡" },
+        { "id": "bomba", "nome": "Bomba d'água",          "potencia_w": 750,  "icone": "💧" },
+        { "id": "secador-cabelo", "nome": "Secador de Cabelo", "potencia_w": 2000, "icone": "💇" },
+        { "id": "aspirador", "nome": "Aspirador de Pó",    "potencia_w": 1400, "icone": "🧹" }
+      ]
+    }
+  ]
+}

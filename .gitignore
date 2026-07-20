@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment / secrets — NUNCA commitar
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Logs & temp
+*.log
+npm-debug.log*
+.DS_Store
+__cors_test.mjs
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
