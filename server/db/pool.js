@@ -3,11 +3,12 @@ import { env } from '../env.js';
 
 const { Pool } = pg;
 
-// O Supabase (e a maioria dos Postgres gerenciados em nuvem) exige SSL na
-// conexão. Como o node-postgres NÃO habilita SSL por padrão, ativamos quando a
-// DATABASE_URL aponta para o Supabase. Em localhost (docker-compose) o SSL fica
+// Postgres gerenciados em nuvem (Neon, Supabase, Render, etc.) exigem SSL na
+// conexão. Como o node-postgres NÃO habilita SSL por padrão, ativamos para
+// qualquer host remoto. Em localhost/127.0.0.1 (docker-compose) o SSL fica
 // desligado, preservando o comportamento de desenvolvimento.
-const useSSL = /supabase/i.test(env.DATABASE_URL || '');
+const isLocalDb = /@(localhost|127\.0\.0\.1)[:/]/i.test(env.DATABASE_URL || '');
+const useSSL = !!env.DATABASE_URL && !isLocalDb;
 
 export const pool = new Pool({
   connectionString: env.DATABASE_URL,
