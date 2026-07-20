@@ -50,12 +50,21 @@ router.post('/login', validateBody(LoginSchema), async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await Users.findByEmail(email);
-    if (!user || !user.password_hash) {
-      return res.status(401).json({ error: 'Credenciais inválidas.' });
+    if (!user) {
+      return res.status(404).json({
+        error: 'Não encontramos uma conta com este email. Crie uma conta para continuar.',
+        code: 'USER_NOT_FOUND',
+      });
+    }
+    if (!user.password_hash) {
+      return res.status(401).json({
+        error: 'Esta conta foi criada com o Google. Entre usando o botão "Entrar com o Google".',
+        code: 'GOOGLE_ONLY',
+      });
     }
     const ok = await bcrypt.compare(password, user.password_hash);
     if (!ok) {
-      return res.status(401).json({ error: 'Credenciais inválidas.' });
+      return res.status(401).json({ error: 'Senha incorreta.', code: 'INVALID_PASSWORD' });
     }
     await Users.touchLastLogin(user.id);
     const token = signAccessToken(user);

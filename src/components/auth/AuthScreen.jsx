@@ -86,6 +86,7 @@ export default function AuthScreen() {
   const [name, setName]         = useState('');
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState(null);
+  const [errorCode, setErrorCode] = useState(null);
 
   async function maybeImportLegacy() {
     const legacy = gatherLegacyData();
@@ -101,6 +102,7 @@ export default function AuthScreen() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
+    setErrorCode(null);
     setLoading(true);
     try {
       if (mode === 'register') {
@@ -113,8 +115,17 @@ export default function AuthScreen() {
       setError(err.body?.issues
         ? err.body.issues.map((i) => i.message).join(' · ')
         : err.message || 'Falha ao autenticar.');
+      setErrorCode(err.body?.code || null);
       setLoading(false);
     }
+  }
+
+  // Muda para o cadastro mantendo o email já digitado (usado quando a conta
+  // ainda não existe).
+  function switchToRegister() {
+    setMode('register');
+    setError(null);
+    setErrorCode(null);
   }
 
   async function handleGoogleCredential(credential) {
@@ -153,7 +164,7 @@ export default function AuthScreen() {
           {['login','register'].map((m) => (
             <button
               key={m}
-              onClick={() => { setMode(m); setError(null); }}
+              onClick={() => { setMode(m); setError(null); setErrorCode(null); }}
               className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 mode === m
                   ? 'bg-apple text-white shadow-glow'
@@ -205,7 +216,20 @@ export default function AuthScreen() {
             />
           </label>
 
-          {error && <ErrorBanner message={error} severity="error" />}
+          {error && (
+            <div className="space-y-2">
+              <ErrorBanner message={error} severity={errorCode === 'USER_NOT_FOUND' ? 'warning' : 'error'} />
+              {errorCode === 'USER_NOT_FOUND' && (
+                <button
+                  type="button"
+                  onClick={switchToRegister}
+                  className="w-full text-sm font-semibold text-apple-300 border border-apple/40 hover:bg-apple/10 rounded-xl py-2 transition-colors"
+                >
+                  Criar conta com {email || 'este email'}
+                </button>
+              )}
+            </div>
+          )}
 
           <button
             type="submit"
@@ -225,7 +249,7 @@ export default function AuthScreen() {
 
         <GoogleSignInButton
           onCredential={handleGoogleCredential}
-          onError={(msg) => setError(msg)}
+          onError={(msg) => { setError(msg); setErrorCode(null); }}
         />
 
         <p className="text-[11px] text-cloud-muted text-center leading-relaxed">
