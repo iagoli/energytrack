@@ -22,8 +22,10 @@ services:
       # DATABASE_URL vem do Supabase (cole a Connection URI em "Environment" no painel).
       - key: DATABASE_URL
         sync: false
+      # O Render gera um valor aleatório forte automaticamente — não precisa
+      # colar nada manualmente.
       - key: JWT_SECRET
-        sync: false
+        generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
       - key: GOOGLE_CLIENT_ID
